@@ -13,9 +13,10 @@ yadm submodule update --recursive --init
 
 # MacOS stuff
 if [ "$system_type" = "Darwin" ]; then
-
+    echo "MacOS Items"
     ## Fonts
     if [ ! -r  ~/Library/Fonts/Source\ Code\ Pro\ for\ Powerline.otf ]; then
+        echo "\tPowerline fonts"
         tempdir=`mktemp -d`
         pushd && cd $tempdir
         git clone https://github.com/powerline/fonts.git
@@ -26,6 +27,7 @@ if [ "$system_type" = "Darwin" ]; then
 
     ## Preferences
     if ! grep --silent Catherine ~/Library/Preferences/com.apple.Terminal.plist; then
+        echo "\tTerminal.app settings"
         open $yadm_home/Catherine.terminal &
         defaults write com.apple.terminal "Default Window Settings" "Catherine"
     fi
