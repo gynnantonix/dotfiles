@@ -4,3 +4,6 @@
 [submodule "Fonts/powerline"]
 	path = Fonts/powerline
 	url = https://github.com/powerline/fonts.git
+[submodule "Code/solarized"]
+	path = Code/solarized
+	url = https://github.com/altercation/solarized.git
