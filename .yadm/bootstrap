@@ -16,7 +16,7 @@ if [ "$system_type" = "Darwin" ]; then
     echo "MacOS Items"
     ## Fonts
     if [ ! -r  ~/Library/Fonts/Source\ Code\ Pro\ for\ Powerline.otf ]; then
-        echo "\tPowerline fonts"
+        echo "  Powerline fonts"
         tempdir=`mktemp -d`
         pushd && cd $tempdir
         git clone https://github.com/powerline/fonts.git
@@ -26,9 +26,9 @@ if [ "$system_type" = "Darwin" ]; then
     fi
 
     ## Preferences
-    if ! grep --silent Catherine ~/Library/Preferences/com.apple.Terminal.plist; then
-        echo "\tTerminal.app settings"
+    if [ `defaults read com.apple.terminal "Default Window Settings"` != "Catherine" ]; then
+        echo "  Terminal.app settings"
         open $yadm_home/Catherine.terminal &
-        defaults write com.apple.terminal "Default Window Settings" "Catherine"
+        defaults write com.apple.terminal "Default\ Window\ Settings" "Catherine"
     fi
 fi
