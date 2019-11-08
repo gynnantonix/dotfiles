@@ -14,18 +14,19 @@ yadm submodule update --recursive --init
 # MacOS stuff
 if [ "$system_type" = "Darwin" ]; then
 
-## Fonts
-if [ ! -r  ~/Library/Fonts/Source\ Code\ Pro\ for\ Powerline.otf ]; then
-    tempdir=`mktemp -d`
-    pushd && cd $tempdir
-    git clone https://github.com/powerline/fonts.git
-    cd fonts && ./install.sh
-    popd
-    rm -rf $tempdir
-fi
+    ## Fonts
+    if [ ! -r  ~/Library/Fonts/Source\ Code\ Pro\ for\ Powerline.otf ]; then
+        tempdir=`mktemp -d`
+        pushd && cd $tempdir
+        git clone https://github.com/powerline/fonts.git
+        cd fonts && ./install.sh
+        popd
+        rm -rf $tempdir
+    fi
 
-## Preferences
-if ! grep --silent Catherine ~/Library/Preferences/com.apple.Terminal.plist; then
-    open $yadm_home/Catherine.terminal &
-    defaults write com.apple.terminal "Default Window Settings" "Catherine"
+    ## Preferences
+    if ! grep --silent Catherine ~/Library/Preferences/com.apple.Terminal.plist; then
+        open $yadm_home/Catherine.terminal &
+        defaults write com.apple.terminal "Default Window Settings" "Catherine"
+    fi
 fi
