@@ -3,32 +3,45 @@
 system_type=$(uname -s)
 yadm_home=$HOME/.yadm
 
+MSG_SKIP_ALREADY_INSTALLED="skipping (already installed)"
+MSG_DONE="done"
 
 # Because Git submodule commands cannot operate without a work tree, they must
 # be run from within $HOME (assuming this is the root of your dotfiles)
 cd "$HOME"
 
-echo "Init submodules"
-yadm submodule update --recursive --init
+echo -n "Oh-My-Zsh: "
+if [ -d ~/.oh-my-zsh ] && [ -r ~/.zshrc ]; then
+    echo $MSG_SKIP_ALREADY_INSTALLED
+else
+    echo "installing:"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+fi
 
 # MacOS stuff
 if [ "$system_type" = "Darwin" ]; then
-    echo "MacOS Items"
+    echo "MacOS Items:"
     ## Fonts
-    if [ ! -r  ~/Library/Fonts/Source\ Code\ Pro\ for\ Powerline.otf ]; then
-        echo "  Powerline fonts"
+    echo -n "  Powerline fonts: "
+    if [ -r  ~/Library/Fonts/Source\ Code\ Pro\ for\ Powerline.otf ]; then
+        echo $MSG_SKIP_ALREADY_INSTALLED
+    else
         tempdir=`mktemp -d`
         pushd && cd $tempdir
         git clone https://github.com/powerline/fonts.git
         cd fonts && ./install.sh
         popd
         rm -rf $tempdir
+        echo $MSG_DONE
     fi
 
     ## Preferences
-    if [ `defaults read com.apple.terminal "Default Window Settings"` != "Catherine" ]; then
-        echo "  Terminal.app settings"
+    echo -n "  Terminal.app settings: "
+    if [ `defaults read com.apple.terminal "Default Window Settings"` == "Catherine" ]; then
+        echo $MSG_SKIP_ALREADY_INSTALLED
+    else
         open $yadm_home/Catherine.terminal &
         defaults write com.apple.terminal "Default\ Window\ Settings" "Catherine"
+        echo $MSG_DONE
     fi
 fi
