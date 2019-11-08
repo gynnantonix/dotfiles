@@ -1,5 +1,9 @@
 #!/bin/bash
 
+system_type=$(uname -s)
+yadm_home=$HOME/.yadm
+
+
 # Because Git submodule commands cannot operate without a work tree, they must
 # be run from within $HOME (assuming this is the root of your dotfiles)
 cd "$HOME"
@@ -8,7 +12,20 @@ echo "Init submodules"
 yadm submodule update --recursive --init
 
 # MacOS stuff
+if [ "$system_type" = "Darwin" ]; then
 
 ## Fonts
+if [ ! -r  ~/Library/Fonts/Source\ Code\ Pro\ for\ Powerline.otf ]; then
+    tempdir=`mktemp -d`
+    pushd && cd $tempdir
+    git clone https://github.com/powerline/fonts.git
+    cd fonts && ./install.sh
+    popd
+    rm -rf $tempdir
+fi
 
 ## Preferences
+if ! grep --silent Catherine ~/Library/Preferences/com.apple.Terminal.plist; then
+    open $yadm_home/Catherine.terminal &
+    defaults write com.apple.terminal "Default Window Settings" "Catherine"
+fi
