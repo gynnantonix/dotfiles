@@ -66,7 +66,6 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
-export HOMEBREW_GITHUB_API_TOKEN="9cf163b7c4ae5e474bc24884cc55998636081bc5"
 export GOPATH=~/Code/go
 
 # You may need to manually set your language environment
